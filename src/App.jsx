@@ -1,23 +1,28 @@
-import { useState } from 'react'
-import './App.css'
-import { Routes, Route } from 'react-router'
+import "./App.css";
+import { Routes, Route } from "react-router";
+import {
+  HomePage,
+  AdminPage,
+  NotFoundPage,
+  SignInPage,
+  SignUpPage,
+} from "./pages";
+import { MainLayout, AdminLayout } from "./layouts";
 
 function App() {
-
-
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="destinations" element={<Destinations />} />
-          <Route path="destinations/:slug" element={<SingleDest />} />
-        </Route>
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="/signin" element={<SignInPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+      </Route>
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/admin" element={<AdminPage />} />
+      </Route>
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 }
 
-export default App
+export default App;
