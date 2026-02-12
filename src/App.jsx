@@ -1,12 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router";
-import {
-  HomePage,
-  AdminPage,
-  NotFoundPage,
-  SignInPage,
-  SignUpPage,
-} from "./pages";
+import { HomePage, NotFoundPage, SignInPage, SignUpPage } from "./pages";
 import { MainLayout, AdminLayout } from "./layouts";
 
 function App() {
@@ -18,7 +12,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
-        <Route path="/admin" element={<AdminPage />} />
+        {/* Admin routes would go here */}
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
