@@ -8,8 +8,13 @@ import {
   EventDetailPage,
 } from "./pages";
 import { MainLayout, AdminLayout } from "./layouts";
+import { useEffect } from "react";
+import { getImageFromQuery } from "./lib/getImageFromQuery";
 
 function App() {
+  useEffect(() => {
+    getImageFromQuery("Brandenburger Tor");
+  }, []);
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
