@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Link, Outlet } from "react-router";
 import Footer from "../components/shared/Footer";
 import Button from "../components/shared/Button";
 
@@ -8,7 +8,12 @@ const AdminLayout = () => {
       <header>
         <nav className="bg-gray-700 text-white px-8 py-4 flex justify-between items-center">
           <div className="text-2xl font-bold">ADMIN</div>
-          <Button text="Logout" />
+          <div>
+            <Link to="/admin/create" className="mr-4 hover:underline">
+              <Button text="Create Event" />
+            </Link>
+            <Button text="Logout" />
+          </div>
         </nav>
       </header>
       <main className="container mx-auto px-4 py-8 mb-auto">

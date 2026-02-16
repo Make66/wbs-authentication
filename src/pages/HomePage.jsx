@@ -1,9 +1,8 @@
 import EventList from "../components/EventList";
 
 const HomePage = () => {
-
   return (
-    <div>
+    <div className="mt-10">
       <EventList />
     </div>
   );

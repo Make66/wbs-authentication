@@ -6,11 +6,15 @@ export const useFetchEvents = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     const fetchEvents = async () => {
       try {
         setLoading(true);
 
-        const response = await fetch("http://localhost:3001/api/events");
+        const response = await fetch("http://localhost:3001/api/events", {
+          signal,
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch events");
@@ -20,6 +24,7 @@ export const useFetchEvents = () => {
         setEvents(data.results || []);
         setError(null);
       } catch (err) {
+        if (err.name === "AbortError") return;
         setError(err.message);
         setEvents([]);
       } finally {
@@ -28,6 +33,8 @@ export const useFetchEvents = () => {
     };
 
     fetchEvents();
+
+    return () => controller.abort();
   }, []);
 
   return { events, loading, error };
