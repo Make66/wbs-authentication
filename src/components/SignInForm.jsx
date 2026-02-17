@@ -11,7 +11,6 @@ const SignInForm = () => {
     email: location.state?.email || "",
     password: location.state?.password || "",
   });
-  console.log("FORMDATA: ", formData);
 
   const { signin, isLoading, error } = useSignin();
 
