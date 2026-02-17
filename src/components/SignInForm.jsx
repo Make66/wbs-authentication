@@ -2,18 +2,30 @@ import { useState } from "react";
 import Button from "./shared/Button";
 import TextInput from "./shared/TextInput";
 import { useSignin } from "../hooks/useSignin";
+import { useNavigate, useLocation } from "react-router";
 
 const SignInForm = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const location = useLocation();
+
+  const [formData, setFormData] = useState({
+    email: location.state?.email || "",
+    password: location.state?.password || "",
+  });
+  console.log("FORMDATA: ", formData);
+
   const { signin, isLoading, error } = useSignin();
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signin(formData.email, formData.password);
+    if (!error) {
+      navigate("/admin");
+    }
   };
 
   return (

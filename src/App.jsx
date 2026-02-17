@@ -25,6 +25,7 @@ function App() {
         <Route path="/event/:id" element={<EventDetailPage />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/admin" element={<HomePage />} />
         <Route path="/admin/create" element={<EventCreatePage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />

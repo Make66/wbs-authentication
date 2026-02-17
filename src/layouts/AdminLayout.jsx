@@ -1,8 +1,16 @@
 import { Link, Outlet } from "react-router";
 import Footer from "../components/shared/Footer";
 import Button from "../components/shared/Button";
+import { useNavigate } from "react-router";
 
 const AdminLayout = () => {
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <header>
@@ -12,7 +20,7 @@ const AdminLayout = () => {
             <Link to="/admin/create" className="mr-4 hover:underline">
               <Button text="Create Event" />
             </Link>
-            <Button text="Logout" />
+            <Button text="Logout" onClick={logout} />
           </div>
         </nav>
       </header>

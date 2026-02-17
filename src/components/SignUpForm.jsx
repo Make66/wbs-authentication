@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "./shared/Button";
 import TextInput from "./shared/TextInput";
 import { useSignup } from "../hooks/useSignup";
+import { useNavigate } from "react-router";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const SignUpForm = () => {
     password: "",
   });
   const { signup, isLoading, error } = useSignup();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -18,7 +20,9 @@ const SignUpForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signup(formData.name, formData.email, formData.password);
-    setFormData({ name: "", email: "", password: "" });
+    if (!error) {
+      navigate("/signin", { state: { email: formData.email, password: formData.password } });
+    }
   };
 
   return (
