@@ -24,7 +24,6 @@ const EventDetail = () => {
         event.date.split("T")[0],
       );
       setWeatherData(weather);
-      console.log("Weather Data:", weather);
     };
     fetchImage();
   }, [event]);
