@@ -1,4 +1,11 @@
-const TextInput = ({ placeholder, name, type = "text", onChange, value }) => {
+const TextInput = ({
+  placeholder,
+  name,
+  type = "text",
+  onChange,
+  value,
+  onBlur,
+}) => {
   return (
     <div>
       <input
@@ -8,6 +15,7 @@ const TextInput = ({ placeholder, name, type = "text", onChange, value }) => {
         className="border border-gray-300 rounded-md p-5 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
         placeholder={placeholder}
         onChange={onChange}
+        onBlur={onBlur}
       />
     </div>
   );

@@ -15,7 +15,9 @@ const AdminLayout = () => {
     <div className="flex flex-col min-h-screen">
       <header>
         <nav className="bg-gray-700 text-white px-8 py-4 flex justify-between items-center">
-          <Link className="text-2xl font-bold">ADMIN</Link>
+          <Link to="/admin" className="text-2xl font-bold">
+            ADMIN
+          </Link>
           <div>
             <Link to="/admin/create" className="mr-4 hover:underline">
               <Button text="Create Event" />
