@@ -2,8 +2,11 @@ import { useState } from "react";
 import Button from "../components/shared/Button";
 import TextInput from "../components/shared/TextInput";
 import { getGeoCode } from "../lib/getGeoCode";
+import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 const EventCreatePage = () => {
+  const navigate = useNavigate();
   const [geoCode, setGeoCode] = useState([8.6820917, 50.1106444]);
   const [formData, setFormData] = useState({
     date: "",
@@ -53,9 +56,12 @@ const EventCreatePage = () => {
         throw new Error("Failed to create event");
       }
       const data = await response.json();
+      toast.success("Event created successfully!");
       console.log("Event created successfully:", data);
+      navigate("/admin");
     } catch (error) {
       console.error("Error creating event:", error);
+      toast.error("Failed to create event");
     }
   };
 
