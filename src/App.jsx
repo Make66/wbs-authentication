@@ -19,9 +19,12 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/event/:id" element={<EventDetailPage />} />
       </Route>
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route path="/admin/create" element={<EventCreatePage />} />
-      </Route>
+      {localStorage.getItem("token") && (
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/admin/create" element={<EventCreatePage />} />
+        </Route>
+      )}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
