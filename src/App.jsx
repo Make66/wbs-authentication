@@ -7,6 +7,7 @@ import {
   SignUpPage,
   EventDetailPage,
   EventCreatePage,
+  EventEditPage,
 } from "./pages";
 import { MainLayout, AdminLayout } from "./layouts";
 
@@ -23,6 +24,8 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/admin/create" element={<EventCreatePage />} />
+          <Route path="/admin/event/:id" element={<EventDetailPage />} />
+          <Route path="/admin/event/:id/edit" element={<EventEditPage />} />
         </Route>
       )}
       <Route path="*" element={<NotFoundPage />} />

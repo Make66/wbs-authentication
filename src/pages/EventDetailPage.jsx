@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { getImageFromQuery } from "../lib/getImageFromQuery";
 import { getFormattedDate } from "../lib/date";
@@ -6,6 +6,7 @@ import { useFetchEventById } from "../hooks/useFetchEventById";
 import LoadingSpnner from "../components/shared/LoadingSpnner";
 import { toast } from "sonner";
 import { getWeather } from "../lib/getWeather";
+import Button from "../components/shared/Button";
 
 const EventDetail = () => {
   const { id } = useParams();
@@ -68,6 +69,11 @@ const EventDetail = () => {
         loading="lazy"
         src={`https://www.openstreetmap.org/export/embed.html?bbox=${event?.longitude - 0.02}%2C${event?.latitude - 0.02}%2C${event?.longitude + 0.02}%2C${event?.latitude + 0.02}&layer=mapnik&marker=${event?.latitude}%2C${event?.longitude}`}
       />
+      {localStorage.getItem("token") && (
+      <Link to={`/admin/event/${event.id}/edit`}>
+        <Button text="Edit Event" className="mt-5" />
+      </Link>
+      )}
     </div>
   );
 };

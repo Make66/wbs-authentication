@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/shared/Button";
 import TextInput from "../components/shared/TextInput";
 import { getGeoCode } from "../lib/getGeoCode";
 import { toast } from "sonner";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { useFetchEventById } from "../hooks/useFetchEventById";
 
-const EventCreatePage = () => {
+const EventEditPage = () => {
+  const { id } = useParams();
+  const { event } = useFetchEventById(id);
   const navigate = useNavigate();
   const [geoCode, setGeoCode] = useState([8.6820917, 50.1106444]);
   const [formData, setFormData] = useState({
@@ -17,8 +20,22 @@ const EventCreatePage = () => {
     latitude: "",
   });
 
-  const handleBlur = async (event) => {
-    const newGeoCode = await getGeoCode(event.target.value);
+  useEffect(() => {
+    if (event) {
+      setFormData({
+        date: new Date(event.date).toISOString().slice(0, 16) || "",
+        title: event.title,
+        location: event.location,
+        description: event.description,
+        longitude: event.longitude,
+        latitude: event.latitude,
+      });
+      setGeoCode([event.longitude, event.latitude]);
+    }
+  }, [event]);
+
+  const handleBlur = async (e) => {
+    const newGeoCode = await getGeoCode(e.target.value);
     setGeoCode(newGeoCode);
     setFormData((prevData) => ({
       ...prevData,
@@ -27,39 +44,38 @@ const EventCreatePage = () => {
     }));
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setFormData((prevData) => ({
-      ...prevData,
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      ...formData,
       longitude: geoCode[0],
       latitude: geoCode[1],
-    }));
+    };
+
     try {
-      const response = await fetch("http://localhost:3001/api/events", {
-        method: "POST",
+      const response = await fetch(`http://localhost:3001/api/events/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
-      if (!response.ok) {
-        throw new Error("Failed to create event");
-      }
-      const data = await response.json();
+
+      if (!response.ok) throw new Error("Failed to create event");
       toast.success("Event created successfully!");
-      console.log("Event created successfully:", data);
       navigate("/admin");
     } catch (error) {
-      console.error("Error creating event:", error);
+      console.error(error);
       toast.error("Failed to create event");
     }
   };
@@ -92,8 +108,8 @@ const EventCreatePage = () => {
         />
         <textarea
           placeholder="Description"
-          name="description"
           value={formData.description}
+          name="description"
           className="border border-gray-300 rounded-md p-5 h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onChange={handleInputChange}
         />
@@ -118,4 +134,4 @@ const EventCreatePage = () => {
   );
 };
 
-export default EventCreatePage;
+export default EventEditPage;
