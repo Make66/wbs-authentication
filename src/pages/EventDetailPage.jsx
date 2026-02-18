@@ -70,9 +70,28 @@ const EventDetail = () => {
         src={`https://www.openstreetmap.org/export/embed.html?bbox=${event?.longitude - 0.02}%2C${event?.latitude - 0.02}%2C${event?.longitude + 0.02}%2C${event?.latitude + 0.02}&layer=mapnik&marker=${event?.latitude}%2C${event?.longitude}`}
       />
       {localStorage.getItem("token") && (
-      <Link to={`/admin/event/${event.id}/edit`}>
-        <Button text="Edit Event" className="mt-5" />
-      </Link>
+        <div className="flex gap-5">
+          <Link to={`/admin/event/${event.id}/edit`}>
+            <Button text="Edit Event" className="mt-5" />
+          </Link>
+          <button
+            className="mt-5 text-red-500 rounded-xl cursor-pointer"
+            onClick={() => {
+              if (
+                window.confirm("Are you sure you want to delete this event?")
+              ) {
+                fetch(`http://localhost:3001/api/events/${id}`, {
+                  method: "DELETE",
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  },
+                });
+              }
+            }}
+          >
+            Delete Event
+          </button>
+        </div>
       )}
     </div>
   );
